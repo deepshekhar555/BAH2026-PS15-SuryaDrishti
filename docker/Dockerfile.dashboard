@@ -1,0 +1,15 @@
+FROM nginx:alpine
+
+# Copy HTML, JS, CSS, and engine
+COPY dashboard_2d.html /usr/share/nginx/html/index.html
+COPY dashboard_2d.html /usr/share/nginx/html/dashboard_2d.html
+COPY dashboard.css /usr/share/nginx/html/dashboard.css
+COPY dashboard.js /usr/share/nginx/html/dashboard.js
+COPY sepEngine.js /usr/share/nginx/html/sepEngine.js
+
+# Copy assets (images, suits, etc.)
+COPY assets/ /usr/share/nginx/html/assets/
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

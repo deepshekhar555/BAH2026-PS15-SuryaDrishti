@@ -86,7 +86,8 @@ SuryaDrishti_Complete_Tab_Guide.pdf
 # node artifacts
 node_modules/
 package-lock.json
-
 # CelesTrak cache (regenerated at runtime)
-celestrak_cache.json
-
+celestrak_cache.json.gcloud_config/ 
+__pycache__/ 
+*.pyc 
+.env 
