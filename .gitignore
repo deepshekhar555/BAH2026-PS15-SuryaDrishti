@@ -91,3 +91,4 @@ celestrak_cache.json.gcloud_config/
 __pycache__/ 
 *.pyc 
 .env 
+.gcloud_config/ 
