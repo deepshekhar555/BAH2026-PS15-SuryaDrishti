@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SuryaDrishti — Official Presentation | India AI Impact Festival 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #05050A;
+    --card-bg: #0C0C18;
+    --border-orange: rgba(255, 107, 0, 0.3);
+    --orange: #FF6B00;
+    --amber: #FF8C00;
+    --cyan: #00C8FF;
+    --green: #22C55E;
+    --purple: #A855F7;
+    --text-main: #F0F0F5;
+    --text-muted: #A0A0C0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Slide Container */
+  .slide-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 90vw;
+    max-width: 1400px;
+    height: 85vh;
+    background: linear-gradient(135deg, #070712 0%, #0D0D1F 100%);
+    border: 1px solid var(--border-orange);
+    border-radius: 16px;
+    box-shadow: 0 0 50px rgba(255, 107, 0, 0.15);
+    padding: 2.5rem 3rem;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Header Bar */
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+    padding-bottom: 1rem;
+  }
+
+  .logo-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+  }
+
+  .badge-tag {
+    background: rgba(0, 200, 255, 0.1);
+    border: 1px solid rgba(0, 200, 255, 0.3);
+    color: var(--cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Slide Titles */
+  .slide-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide-title span.number {
+    color: var(--orange);
+  }
+
+  /* Content Grid */
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    flex-grow: 1;
+    align-content: center;
+    margin: 1rem 0;
+  }
+
+  .card {
+    background: rgba(12, 12, 24, 0.8);
+    border: 1px solid rgba(255, 107, 0, 0.18);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .card:hover {
+    border-color: var(--orange);
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
+  }
+
+  .card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .card-text b {
+    color: var(--text-main);
+  }
+
+  /* Footer Bar */
+  .slide-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* Navigation Controls */
+  .nav-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(7, 7, 18, 0.9);
+    border: 1px solid var(--border-orange);
+    padding: 8px 20px;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    z-index: 999;
+  }
+
+  .nav-btn {
+    background: linear-gradient(135deg, var(--orange), var(--amber));
+    border: none;
+    color: #000;
+    font-weight: bold;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+  }
+
+  .nav-btn:hover { transform: scale(1.05); }
+
+  .slide-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--cyan);
+  }
+
+  /* Speaker Notes Overlay - Hidden on clean presentation screen */
+  .notes-box {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="slide-container">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active">
+    <div class="slide-header">
+      <div class="logo-box">
+        <span class="logo-text">SURYADRISHTI</span>
+      </div>
+      <span class="badge-tag">INDIA AI IMPACT FESTIVAL 2026</span>
+    </div>
+    <div style="text-align: center; margin: auto 0;">
+      <h1 style="font-family: 'Orbitron', sans-serif; font-size: 2.6rem; color: var(--amber); margin-bottom: 0.8rem;">SURYADRISHTI</h1>
+      <h2 style="font-size: 1.4rem; color: var(--text-main); font-weight: 500; margin-bottom: 1.5rem;">Aditya-L1 Solar Flare Intelligence & Space Weather Nowcasting Center</h2>
+      <p style="font-size: 1rem; color: var(--cyan); margin-bottom: 2rem;">A Sub-Second Physics-Informed AI (PINN) Defense System for Satellite Avionics & National Infrastructure</p>
+      
+      <div style="display: inline-flex; gap: 2rem; background: rgba(255,107,0,0.08); border: 1px solid rgba(255,107,0,0.25); padding: 1rem 2rem; border-radius: 10px; text-align: left;">
+        <div>
+          <div style="font-size: 0.7rem; color: var(--text-muted);">SOLO INNOVATOR</div>
+          <div style="font-size: 0.95rem; font-weight: bold; color: var(--amber);">Deep Shekhar Halder</div>
+        </div>
+        <div>
+          <div style="font-size: 0.7rem; color: var(--text-muted);">CATEGORIES</div>
+          <div style="font-size: 0.95rem; font-weight: bold; color: var(--cyan);">Udyog Shakti · Paryavaran Shakti · Lok Shakti</div>
+        </div>
+        <div>
+          <div style="font-size: 0.7rem; color: var(--text-muted);">MISSION TELEMETRY</div>
+          <div style="font-size: 0.95rem; font-weight: bold; color: var(--green);">ISRO Aditya-L1 (SoLEXS + HEL1OS)</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>India AI Impact Festival 2026 | AI for Bharat</span>
+      <span>Slide 1 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Problem Statement -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">PROBLEM STATEMENT</span>
+    </div>
+    <div class="slide-title"><span class="number">02.</span> Critical Threat: High-Energy Space Weather</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">⚡ D-Layer Radio Blackouts</div>
+        <div class="card-text">Solar X-ray bursts instantly ionize Earth's D-layer, causing total High-Frequency (HF) radio communications blackouts for transoceanic aviation and military defense routes.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">📡 NavIC / GNSS Degradation</div>
+        <div class="card-text">Rapid ionospheric Total Electron Content (TEC) spikes distort satellite signals, degrading India's NavIC positioning accuracy for civil transport and defense.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🛰 Satellite SEU & Power Grids</div>
+        <div class="card-text">Solar protons cause Single Event Upsets (SEUs) in satellite electronics. CME plasma shocks induce destructive Geomagnetically Induced Currents (GICs) in ground power transformers.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">❌ The Legacy Bottleneck</div>
+        <div class="card-text">Traditional supercomputer physics models (WSA-ENLIL) require hours to run. Standard "black-box" ML models produce unphysical, wild hallucinations during extreme X-class flares.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "Supercomputers take hours while solar flares strike in 8 minutes. Standard AI hallucinates during X-class flares. We urgently need a sub-second, physics-constrained AI solution."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti Technical Pitch</span>
+      <span>Slide 2 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Innovation & Physics-Informed AI -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">INNOVATION & PHYSICS</span>
+    </div>
+    <div class="slide-title"><span class="number">03.</span> The Breakthrough: Physics-Informed Neural AI</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">🛰 Aditya-L1 Telemetry Fusion</div>
+        <div class="card-text">Integrates 1s cadence raw X-ray data from ISRO's SoLEXS (1-15 keV Soft X-ray) and HEL1OS (10-150 keV Hard X-ray) payloads located at Sun-Earth L1.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🧲 MHD Loss Penalty Constraint</div>
+        <div class="card-text">Embeds the Magnetohydrodynamic (MHD) induction equation <b>∂B/∂t = ∇×(u×B) + η∇²B</b> directly into the ML loss function, penalizing unphysical predictions and reducing false alarms by 8.3%.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔥 Neupert Effect Kinetics</div>
+        <div class="card-text">Validates chromospheric evaporation by correlating HEL1OS hard X-rays with the time derivative of SoLEXS soft X-rays (dI/dt), capturing pre-flare thermal energy accumulation.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">⏱ Sub-Second Operational Speed</div>
+        <div class="card-text">Delivers instant flare nowcasts and 30-minute pre-cursor forecasts in milliseconds, giving satellite operators 15–45 minutes of advance lead-time.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "Instead of treating AI as a black box, I embedded the laws of plasma physics—specifically MHD induction and Neupert Effect kinetics—into the AI's training loss. This eliminates false alarms."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti Core Innovation</span>
+      <span>Slide 3 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Architecture Workflow -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">SYSTEM ARCHITECTURE</span>
+    </div>
+    <div class="slide-title"><span class="number">04.</span> End-to-End Pipeline Architecture</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">1. Telemetry Ingestion</div>
+        <div class="card-text">FastAPI backend processes raw photon streams from ISSDC PRADAN portal (847,752 SoLEXS & HEL1OS points). Resampled, calibrated, and time-aligned.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">2. Feature Extraction</div>
+        <div class="card-text">Extracts 5 key physical parameters: mean count, standard deviation, Spectral Hardness Ratio (HXR/SXR), linear derivative slope (dI/dt), and QPP oscillation power.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">3. Random Forest + PINN</div>
+        <div class="card-text">Classifier ensemble trained on 71,825 labeled samples (B, C, M, X flare classes) constrained by MHD loss penalty. Evaluates 10-min sliding windows.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">4. Dual Control Interfaces</div>
+        <div class="card-text">Outputs predictions to <b>3D WebGL Globe</b> (spatial blackout maps) & <b>2D Streamlit Control Center</b> (scientific analytics & RAG AI Space Assistant).</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "My pipeline takes raw photon telemetry from L1, extracts 5 physical features, passes them through a physics-constrained Random Forest ensemble, and outputs to both 3D and 2D mission control interfaces."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti Architecture</span>
+      <span>Slide 4 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: 3D WebGL Globe -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">3D MISSION CONTROL</span>
+    </div>
+    <div class="slide-title"><span class="number">05.</span> Interactive 3D WebGL Globe Dashboard</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">🌑 Dynamic HF Blackout Ellipse</div>
+        <div class="card-text">Calculates subsolar ionospheric D-layer absorption using solar zenith angle physics <b>A ∝ F_SXR^0.75</b>, rendering real-time HF blackout zones over Earth.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🛰 Orbit & Satellite Risk Tracking</div>
+        <div class="card-text">Tracks Aditya-L1 at Sun-Earth L1 halo orbit alongside CelesTrak SGP4 orbital tracks for NavIC, INSAT, Cartosat, and ISS spacecraft.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌌 60 FPS Fluid Rendering</div>
+        <div class="card-text">Engineered with frame-rate independent delta-time interpolation, delivering smooth 60 FPS rotation, pulsing polar auroral ovals, and boresight targeting.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">⚡ Event Simulation Engine</div>
+        <div class="card-text">Allows mission operators to simulate custom X-class solar flare ejections, testing satellite blackout impact and safe-mode procedures.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "The 3D Globe gives satellite controllers instant situational awareness—showing exact ionospheric blackout ellipses over Earth and identifying which NavIC or GSAT satellites are at risk."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti 3D Interface</span>
+      <span>Slide 5 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: 2D Streamlit Dashboard -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">2D ANALYTICS HUD</span>
+    </div>
+    <div class="slide-title"><span class="number">06.</span> 2D Streamlit Scientific Analytics Center</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">📊 Real-Time Light Curves</div>
+        <div class="card-text">Live 1s cadence SoLEXS (Soft X-ray) & HEL1OS (Hard X-ray) flux streams with Neupert Effect coherence indicators and alert banners.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔬 4-Sub-Tab Model Validation</div>
+        <div class="card-text">1. Preprocessing & Labels | 2. Statistical EDA | 3. Architecture & PINN | 4. Model Performance vs Baselines.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">☄ CME Drag-Based Model</div>
+        <div class="card-text">Calculates Interplanetary CME arrival times (ToA) at Earth using a Drag-Based Model (DBM), giving millisecond travel time predictions.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🤖 AI Space Assistant</div>
+        <div class="card-text">RAG-enabled LLM space weather assistant providing plain-language mission reports, operator directives, and SHAP explainability.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "The 2D Dashboard provides complete scientific transparency—including SHAP feature importance, model validation plots, CME travel time forecasts, and a conversational AI assistant."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti 2D Interface</span>
+      <span>Slide 6 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Performance Validation -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">BENCHMARKS & METRICS</span>
+    </div>
+    <div class="slide-title"><span class="number">07.</span> Model Performance & Benchmark Results</div>
+    
+    <div class="content-grid">
+      <div class="card" style="border-color: var(--green);">
+        <div class="card-title" style="color: var(--green);">🏆 0.968 AUC-ROC</div>
+        <div class="card-text">Achieves state-of-the-art ROC curve performance across B, C, M, and X flare classification tasks on a 20% holdout test set.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 93.2% Recall</div>
+        <div class="card-text">Ensures critical solar flare events are almost never missed, providing reliable early warning for space agency safety.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">📈 88.7% Precision / 0.908 F1</div>
+        <div class="card-text">High precision minimizes false alarms, preventing unnecessary and costly satellite safe-mode triggers.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">⚔ vs Baseline Models</div>
+        <div class="card-text">Outperforms CAT-PUMA (0.893 AUC) by <b>7.5%</b> and WSA-ENLIL (0.821 AUC) by <b>14.7%</b> while running in milliseconds instead of hours.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "SuryaDrishti achieves an AUC-ROC of 0.968 and 93.2% recall—outperforming NASA/NOAA baselines like CAT-PUMA and WSA-ENLIL while running 10,000x faster."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti Validation</span>
+      <span>Slide 7 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Societal & Economic Impact -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">NATIONAL IMPACT</span>
+    </div>
+    <div class="slide-title"><span class="number">08.</span> Impact for AI-Powered Bharat</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">🏭 Udyog Shakti (Industry)</div>
+        <div class="card-text">Protects commercial satellite constellations, civil aviation HF communications, and maritime navigation networks from radiation damage.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌱 Paryavaran Shakti (Sustainability)</div>
+        <div class="card-text">Safeguards national high-voltage power transmission grids from destructive GIC shocks, preventing catastrophic regional blackouts.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🚀 Lok Shakti (Democratization)</div>
+        <div class="card-text">Democratizes space-weather intelligence through an accessible, web-based WebGL interface for researchers, operators, and students across India.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🇮🇳 Self-Reliant Space Defense</div>
+        <div class="card-text">Provides ISRO with an autonomous early-warning shield tailored specifically to Aditya-L1 payload telemetry, advancing Atmanirbhar Bharat.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "SuryaDrishti directly aligns with Udyog, Paryavaran, and Lok Shakti—protecting India's power grid, satellite fleets, and navigation infrastructure."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti Impact</span>
+      <span>Slide 8 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Technical Defense Q&A -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">TECHNICAL Q&A SHIELD</span>
+    </div>
+    <div class="slide-title"><span class="number">09.</span> Pro-Defense Against Tough Judge Questions</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">Q: Why Random Forest over LSTMs?</div>
+        <div class="card-text"><b>Ans:</b> RF requires far lower latency (sub-millisecond), handles tabular telemetry features without overfitting, and provides exact Gini feature importance & SHAP explainability.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Q: How do you handle 8-min L1 light delay?</div>
+        <div class="card-text"><b>Ans:</b> Light speed delay is an unalterable physical constant. However, our system processes data in sub-seconds upon ground arrival and provides 30-min precursor forecasts.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Q: Why represent blackouts as ellipses?</div>
+        <div class="card-text"><b>Ans:</b> Ionospheric D-layer X-ray absorption scales primarily with solar zenith angle cos(χ), making a subsolar ellipse the optimal 1st-order physical approximation for HUD controls.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Q: What if SoLEXS payload goes offline?</div>
+        <div class="card-text"><b>Ans:</b> The pipeline incorporates separate fallback models trained for SXR-only, HXR-only, and combined telemetry, supported by Kalman filter imputation.</div>
+      </div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">🎙️ WHAT TO SAY TO JUDGES:</div>
+      "If asked about architecture, latency, or physics approximations, use these precise scientific answers to defend your implementation with total confidence."
+    </div>
+
+    <div class="slide-footer">
+      <span>SuryaDrishti Q&A Shield</span>
+      <span>Slide 9 of 10</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Future Roadmap & Conclusion -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="logo-box"><span class="logo-text">SURYADRISHTI</span></div>
+      <span class="badge-tag">ROADMAP & CONCLUSION</span>
+    </div>
+    <div class="slide-title"><span class="number">10.</span> Future Roadmap & Mission Vision</div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-title">1. Ground Integration</div>
+        <div class="card-text">Deploying direct API hooks into ISRO ISTRAC / IDSN ground telemetry stations for live automated mission alert generation.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">2. Multi-Satellite Constellations</div>
+        <div class="card-text">Expanding physics loss models to fuse L1 (Aditya-L1) with future L5 stereoscopic space-weather satellites for 3D coronal mass ejection tracking.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">3. Edge AI Micro-Chip</div>
+        <div class="card-text">Quantizing the Random Forest + PINN model for direct edge-chip execution on satellite buses to trigger autonomous safe-modes in-orbit.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏆 Vision</div>
+        <div class="card-text">Establishing a world-class, self-reliant Space Situational Awareness & AI Defense Shield for India.</div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 1rem;">
+      <h3 style="font-family:'Orbitron',sans-serif; color: var(--amber); font-size: 1.3rem;">Thank You! Questions & Discussion</h3>
+      <p style="font-size: 0.85rem; color: var(--cyan); margin-top: 4px;">Deep Shekhar Halder | SuryaDrishti Solar Intelligence | India AI Impact Festival 2026</p>
+    </div>
+
+    <div class="slide-footer">
+      <span>India AI Impact Festival 2026</span>
+      <span>Slide 10 of 10</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation Controls Bar -->
+<div class="nav-bar">
+  <button class="nav-btn" onclick="prevSlide()">❮ Prev</button>
+  <span class="slide-counter" id="counter">Slide 1 / 10</span>
+  <button class="nav-btn" onclick="nextSlide()">Next ❯</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+
+  function showSlide(index) {
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    counter.textContent = `Slide ${index + 1} / ${slides.length}`;
+  }
+
+  function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  }
+
+  // Keyboard Arrow Key Navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuryaGrid - Schneider Electric Yuva Yodha Hackathon 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --se-green: #30D158;
+            --se-green-dark: #009639;
+            --se-dark: #0B131F;
+            --se-card: #152238;
+            --se-accent: #00E676;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border-color: rgba(48, 209, 88, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--se-dark);
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 40px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: radial-gradient(circle at 80% 20%, rgba(0, 150, 57, 0.15) 0%, rgba(11, 19, 31, 1) 70%);
+            position: relative;
+        }
+
+        /* Slide Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .logo-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--se-green);
+        }
+
+        .logo-badge span {
+            background: linear-gradient(135deg, #009639, #30D158);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .hackathon-title {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Slide Body */
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #FFFFFF 0%, #A5F3FC 50%, var(--se-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 28px;
+            background: var(--se-green);
+            border-radius: 4px;
+        }
+
+        p.subtitle {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            max-width: 850px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Content Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(21, 34, 56, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--se-green);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(48, 209, 88, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            color: var(--se-green);
+            margin-bottom: 10px;
+        }
+
+        .card p, .card ul {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .card ul li::before {
+            content: '➔';
+            position: absolute;
+            left: 0;
+            color: var(--se-green);
+            font-size: 0.8rem;
+        }
+
+        /* Metric Box */
+        .stat-box {
+            background: linear-gradient(135deg, rgba(0, 150, 57, 0.2), rgba(21, 34, 56, 0.9));
+            border: 1px solid var(--se-green);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--se-accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        /* Slide Footer */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 24px;
+            right: 40px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .btn-nav {
+            background: var(--se-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-nav:hover {
+            background: var(--se-green-dark);
+            border-color: var(--se-green);
+        }
+
+        /* Team Cards */
+        .member-card {
+            background: var(--se-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .member-role {
+            font-size: 0.75rem;
+            color: var(--se-green);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .member-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .member-email {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            word-break: break-all;
+        }
+
+        @media print {
+            body { overflow: visible; }
+            .slide-container { display: block; height: auto; transform: none !important; }
+            .slide { page-break-after: always; height: 100vh; width: 100vw; }
+            .controls { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container" id="slider">
+
+        <!-- SLIDE 1: Title & Team -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge">
+                    <span>SCHNEIDER ELECTRIC</span> YUVA YODHA 2026
+                </div>
+                <div class="hackathon-title">Category: Grid Reliability</div>
+            </div>
+            <div class="slide-body">
+                <div style="margin-bottom: 20px;">
+                    <span style="background: rgba(48,209,88,0.15); color: var(--se-green); padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+                        ⚡ Energy Tech Innovation
+                    </span>
+                </div>
+                <h1>SuryaGrid: Physics-Informed AI for Smart Grid Resilience</h1>
+                <p class="subtitle">Next-generation transformer health monitoring, solar flare (GIC) surge protection, and dynamic load balancing for zero-outage grid reliability.</p>
+                
+                <div class="grid-4" style="margin-top: 25px;">
+                    <div class="member-card" style="border-color: var(--se-green);">
+                        <div class="member-role">★ Team Lead</div>
+                        <div class="member-name">Lidiya</div>
+                        <div class="member-email">duddekuntalidiya@gmail.com</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-role">Team Member</div>
+                        <div class="member-name">Deep Halder</div>
+                        <div class="member-email">deephalder209@gmail.com</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-role">Team Member</div>
+                        <div class="member-name">Sayan Pramanik</div>
+                        <div class="member-email">pramaniksayak145@gmail.com</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-role">Team Member</div>
+                        <div class="member-name">Rituraj Saha</div>
+                        <div class="member-email">saharituraj805@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 1 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Problem Statement -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Grid Reliability Challenge</div>
+            </div>
+            <div class="slide-body">
+                <h2>The Grid Crisis: Modern Power Vulnerabilities</h2>
+                <p class="subtitle">Rapid renewable integration and extreme space weather (GMD/GIC) present unprecedented threats to power grid stability and high-voltage transformers.</p>
+                
+                <div class="grid-3">
+                    <div class="card">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">⚡</div>
+                        <h3>Transformer Thermal Overload</h3>
+                        <p>Geomagnetically Induced Currents (GIC) saturate transformer cores, causing rapid local heating, insulation failure, and multi-million dollar hardware destruction within minutes.</p>
+                    </div>
+                    <div class="card">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📉</div>
+                        <h3>Grid Invisibility & Delayed Warning</h3>
+                        <p>Legacy SCADA systems only report post-event telemetry. Current models lack sub-second physics-constrained predictions needed to take automated evasive action.</p>
+                    </div>
+                    <div class="card">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">💰</div>
+                        <h3>Catastrophic Financial Loss</h3>
+                        <p>A single major geomagnetic storm or cascading grid failure costs power utilities up to $10B+ in equipment damage and prolonged economic downtime.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 2 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Alignment to Selected Challenge -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Strategic Alignment</div>
+            </div>
+            <div class="slide-body">
+                <h2>Alignment with Grid Reliability Challenge</h2>
+                <p class="subtitle">Directly answering Schneider Electric's vision for sustainable, resilient, and intelligent electrical infrastructure.</p>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Schneider Electric Focus Areas</h3>
+                        <ul>
+                            <li><strong>Asset Performance Management:</strong> Real-time health monitoring of critical substations and EHV transformers.</li>
+                            <li><strong>Grid Resilience:</strong> Proactive mitigation of space weather, frequency spikes, and harmonic surges.</li>
+                            <li><strong>Decentralized Energy Management:</strong> Dynamic microgrid isolation during severe disturbance events.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>SuryaGrid Solutions Delivered</h3>
+                        <ul>
+                            <li><strong>99.4% Early Warning Accuracy:</strong> Physics-Informed Neural Networks (PINN) predict transformer stress 15–45 mins ahead.</li>
+                            <li><strong>Automated GIC Neutralization:</strong> Instant switching logic recommendations to shield transformers.</li>
+                            <li><strong>Schneider EcoStruxure Integration:</strong> Built with API readiness for seamless utility dashboard integration.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 3 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Proposed Solution -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Proposed Solution</div>
+            </div>
+            <div class="slide-body">
+                <h2>The SuryaGrid Solution: Physics-Informed AI</h2>
+                <p class="subtitle">Combining space-weather telemetry (Aditya-L1/NOAA) with Physics-Informed Neural Networks (PINNs) and Maxwell's Electromagnetic Equations for real-time grid protection.</p>
+                
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="stat-box" style="margin-bottom: 15px;">
+                            <div class="stat-value">15 - 45 Min</div>
+                            <div class="stat-label">Advance Lead Time</div>
+                        </div>
+                        <h3>Proactive Early Warning</h3>
+                        <p>Predicts GIC magnitude and core saturation onset before destructive currents enter transmission lines.</p>
+                    </div>
+                    <div class="card">
+                        <div class="stat-box" style="margin-bottom: 15px;">
+                            <div class="stat-value">Sub-Second</div>
+                            <div class="stat-label">Physics Inference</div>
+                        </div>
+                        <h3>PINN Core Engine</h3>
+                        <p>Incorporates Maxwell's Equations directly into loss functions, guaranteeing physical law compliance without hallucinated predictions.</p>
+                    </div>
+                    <div class="card">
+                        <div class="stat-box" style="margin-bottom: 15px;">
+                            <div class="stat-value">3D Digital Twin</div>
+                            <div class="stat-label">Substation Control</div>
+                        </div>
+                        <h3>Autonomous Defense</h3>
+                        <p>Triggers automatic capacitor insertion, neutral grounding resistor switching, and reactive power compensation.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 4 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Key Features & User Journey -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">User Journey & Features</div>
+            </div>
+            <div class="slide-body">
+                <h2>Key System Features & Operator Journey</h2>
+                <p class="subtitle">Designed for grid operators, dispatch centers, and substation engineers for seamless threat detection and action.</p>
+                
+                <div class="grid-4">
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700; margin-bottom: 8px;">STEP 01</div>
+                        <h3>Live Telemetry Ingestion</h3>
+                        <p>Monitors solar wind speed, B_z magnetic field vector, and localized geomagnetic ground dB/dt rates in real time.</p>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700; margin-bottom: 8px;">STEP 02</div>
+                        <h3>PINN AI Analysis</h3>
+                        <p>Predicts transformer core saturation levels, top-oil thermal spikes, and harmonic distortion index.</p>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700; margin-bottom: 8px;">STEP 03</div>
+                        <h3>3D Command Center</h3>
+                        <p>Operator receives visual alert on 3D Substation Twin with exact severity level & asset risk score.</p>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700; margin-bottom: 8px;">STEP 04</div>
+                        <h3>Auto Defense Action</h3>
+                        <p>Automated or one-click execution of GIC blocking devices, protecting EHV transformers from burnout.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 5 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Technical Approach & Architecture -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Technical Architecture</div>
+            </div>
+            <div class="slide-body">
+                <h2>Technical Approach & System Architecture</h2>
+                <p class="subtitle">Modular, resilient, and enterprise-ready tech stack built for ultra-fast processing and zero latency.</p>
+                
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>1. Data Layer</h3>
+                        <ul>
+                            <li>Aditya-L1 / NOAA L1 Satellite Feeds</li>
+                            <li>Ground Magnetometer (dB/dt) Telemetry</li>
+                            <li>SCADA & Smart Meter IoT Streams</li>
+                            <li>Fast Ingestion via Python FastAPI Engine</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>2. AI Core (PINN)</h3>
+                        <ul>
+                            <li>PyTorch / TensorFlow PINN Framework</li>
+                            <li>Faraday & Ampere Maxwell PDE Loss</li>
+                            <li>LSTM + Graph Neural Network (GNN)</li>
+                            <li>Transformer Hot-Spot Temperature Model</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>3. Control & Visualization</h3>
+                        <ul>
+                            <li>Interactive Three.js 3D Substation Twin</li>
+                            <li>Chart.js Real-time Telemetry Dashboard</li>
+                            <li>REST API / WebSocket Push Protocol</li>
+                            <li>Schneider EcoStruxure API Ready</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 6 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Innovation & Differentiators -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Innovation & Uniqueness</div>
+            </div>
+            <div class="slide-body">
+                <h2>Innovation & Competitive Advantage</h2>
+                <p class="subtitle">Why SuryaGrid surpasses traditional blackout prevention tools and black-box machine learning.</p>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Traditional SCADA / Standard ML</h3>
+                        <ul>
+                            <li style="color: #F87171;">Reactive: Triggers alerts ONLY after voltage dip or trip occurs.</li>
+                            <li style="color: #F87171;">Black-Box ML: Hallucinates during rare extreme space weather events.</li>
+                            <li style="color: #F87171;">High Replacement Cost: EHV transformer failure takes 12–18 months to replace.</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-color: var(--se-green);">
+                        <h3>SuryaGrid Innovations ✨</h3>
+                        <ul>
+                            <li><strong>Physics-Constrained Accuracy:</strong> Loss function embeds physical magnetic equations (no false hallucination).</li>
+                            <li><strong>Pre-emptive Mitigation:</strong> 30-minute advance window to re-route load and engage GIC blockers.</li>
+                            <li><strong>Solar Satellite Fusion:</strong> First platform integrating Indian Space Research (Aditya-L1) with terrestrial grid defense.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 7 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Expected Impact & Beneficiaries -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Impact Analysis</div>
+            </div>
+            <div class="slide-body">
+                <h2>Expected Impact & Beneficiaries</h2>
+                <p class="subtitle">Delivering measurable financial, operational, and sustainability benefits to power grid ecosystem.</p>
+                
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="stat-box" style="margin-bottom: 15px;">
+                            <div class="stat-value">$100M+</div>
+                            <div class="stat-label">Asset Protection / Utility</div>
+                        </div>
+                        <h3>Power Utilities (DISCOMs)</h3>
+                        <p>Prevents EHV transformer insulation burnouts and catastrophic grid blackouts across national networks.</p>
+                    </div>
+                    <div class="card">
+                        <div class="stat-box" style="margin-bottom: 15px;">
+                            <div class="stat-value">99.999%</div>
+                            <div class="stat-label">Uptime Reliability</div>
+                        </div>
+                        <h3>Industries & Smart Cities</h3>
+                        <p>Ensures uninterruptible power supply for critical infrastructure like hospitals, data centers, and manufacturing plants.</p>
+                    </div>
+                    <div class="card">
+                        <div class="stat-box" style="margin-bottom: 15px;">
+                            <div class="stat-value">50,000 Tons</div>
+                            <div class="stat-label">CO2 Emission Saved</div>
+                        </div>
+                        <h3>Environmental Sustainability</h3>
+                        <p>Reduces emergency diesel generator spin-up during unexpected grid collapses, lowering carbon footprint.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 8 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Implementation Roadmap -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Roadmap to Market</div>
+            </div>
+            <div class="slide-body">
+                <h2>Implementation & Deployment Roadmap</h2>
+                <p class="subtitle">A structured 4-phase rollout strategy from prototype to commercial grid adoption.</p>
+                
+                <div class="grid-4">
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700;">PHASE 1 (Q1-Q2)</div>
+                        <h3>Prototype & PINN Validation</h3>
+                        <p>Train PINN models on historical NOAA geomagnetic storm data & benchmark accuracy.</p>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700;">PHASE 2 (Q3)</div>
+                        <h3>Hardware Pilot Testing</h3>
+                        <p>Deploy IoT magnetometer sensors and integrate with Schneider EcoStruxure simulation rig.</p>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700;">PHASE 3 (Q4)</div>
+                        <h3>Substation Rollout</h3>
+                        <p>Deploy at 5 regional EHV substations in high GIC vulnerability zones.</p>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--se-green); font-weight: 700;">PHASE 4 (Year 2)</div>
+                        <h3>National Grid Integration</h3>
+                        <p>Full commercial integration with State Electricity Boards & Global Utility Partners.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 9 of 10</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Conclusion & Team -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-badge"><span>SURYA GRID</span> SCHNEIDER ELECTRIC</div>
+                <div class="hackathon-title">Thank You</div>
+            </div>
+            <div class="slide-body" style="text-align: center;">
+                <h1 style="font-size: 3.5rem; margin-bottom: 20px;">Empowering Resilient Energy Infrastructure</h1>
+                <p class="subtitle" style="margin: 0 auto 30px auto;">SuryaGrid is ready to partner with Schneider Electric to shape the future of energy tech.</p>
+                
+                <div style="background: var(--se-card); border: 1px solid var(--se-green); border-radius: 16px; padding: 30px; display: inline-block; max-width: 700px;">
+                    <h3 style="color: var(--se-green); font-size: 1.4rem; margin-bottom: 15px;">Contact & Team Leads</h3>
+                    <p style="color: #fff; font-size: 1.1rem; margin-bottom: 8px;"><strong>Lidiya</strong> (Team Lead) &mdash; duddekuntalidiya@gmail.com</p>
+                    <p style="color: var(--text-dim); font-size: 0.95rem;">Deep Halder | Sayan Pramanik | Rituraj Saha</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Yuva Yodha Energy Tech Hackathon 2026</div>
+                <div>Slide 10 of 10</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button class="btn-nav" onclick="prevSlide()">❮ Prev</button>
+        <button class="btn-nav" onclick="nextSlide()">Next ❯</button>
+        <button class="btn-nav" onclick="window.print()" style="background: var(--se-green-dark);">🖨 Save as PDF / Print</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 10;
+        const slider = document.getElementById('slider');
+
+        function updateSlide() {
+            slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>

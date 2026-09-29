@@ -370,7 +370,7 @@ setInterval(updateClocks,1000); updateClocks();
 const sunCanvas = document.getElementById('sunCanvas');
 const sunCtx = sunCanvas.getContext('2d');
 let sunTime = 0, sunLastTs = 0;
-const SUN_MS = 1000/15;
+const SUN_MS = 1000/60; // 60 FPS smooth solar canvas
 
 const ARs = [
  {id:'AR4087',nx:0.22,ny:-0.38,r:0.075},
@@ -420,7 +420,8 @@ const WL_PROFILES = {
 function drawSun(ts) {
  requestAnimationFrame(drawSun);
  if (ts - sunLastTs < SUN_MS) return;
- sunLastTs = ts; sunTime += 0.04;
+ const dt = Math.min((ts - sunLastTs) / 1000, 0.1);
+ sunLastTs = ts; sunTime += dt * 0.8;
 
  const w=sunCanvas.width, h=sunCanvas.height;
  const cx=w/2, cy=h/2, R=Math.min(cx,cy)*0.85;
@@ -797,7 +798,6 @@ function drawSun(ts) {
   }
  }
 }
-requestAnimationFrame(drawSun);
 
 function setWavelength(wl) {
  wavelength=wl;
@@ -808,12 +808,12 @@ function setWavelength(wl) {
 }
 
 // ================================================================
-// 🌍 WORLD MAP / SATELLITE IMPACT MAP (5fps)
+// 🌍 WORLD MAP / SATELLITE IMPACT MAP (60fps Butter-Smooth)
 // ================================================================
 const mapCanvas = document.getElementById('mapCanvas');
 const mapCtx = mapCanvas.getContext('2d');
 let mapTime = 0, mapLastTs = 0;
-const MAP_MS = 1000/5;
+const MAP_MS = 1000/60; // 60 FPS smooth rendering
 
 // Detailed continent outlines [lon, lat]
 const CONTINENTS = [
@@ -1042,7 +1042,9 @@ window.addEventListener('resize',resizeMap);
 function drawWorldMap(ts) {
  requestAnimationFrame(drawWorldMap);
  if (ts - mapLastTs < MAP_MS) return;
- mapLastTs = ts; mapTime += 0.06;
+ const dt = Math.min((ts - mapLastTs) / 1000, 0.1);
+ mapLastTs = ts;
+ mapTime += dt * 1.2;
 
  const W = mapCanvas.width, H = mapCanvas.height;
  mapCtx.clearRect(0, 0, W, H);
@@ -1056,9 +1058,9 @@ function drawWorldMap(ts) {
  const focusedSat = SATS_DEF[focusedSatIndex];
  const focusedPos = getSatPos(focusedSat, mapTime);
 
- // Slowly rotate the 3D Globe automatically if not dragging
+ // Smoothly rotate the 3D Globe automatically if not dragging
  if (globeMode && playing && !isDraggingMap) {
-   globeRotY += 0.003 * speed;
+   globeRotY += 0.1 * dt * speed;
  }
 
  // === 1. EARTH BASE LAYER (3D Globe vs 2D Photorealistic Map) ===
@@ -1624,7 +1626,6 @@ function drawWorldMap(ts) {
  mapCtx.font = `${sf}px JetBrains Mono, monospace`;
  mapCtx.fillText(focusLocked ? '\u{1F512} LOCKED (click to unlock)' : '\u{1F504} Auto-cycling (click satellite to lock)', W * 0.66, stripBot);
 }
-requestAnimationFrame(drawWorldMap);
 
 
 function toggleBlackout(btn) {

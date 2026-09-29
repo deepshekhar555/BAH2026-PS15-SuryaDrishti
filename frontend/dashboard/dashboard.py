@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 SuryaDrishti — Aditya-L1 Solar Flare Intelligence Dashboard
-ISRO / Bharatiya Antriksh Hackathon 2026 Edition
-Full redesign: ISRO mission-control theme + 3D dashboard features ported to Streamlit.
+ISRO / India AI Impact Festival 2026 Edition
+Full redesign: ISRO mission-control theme + 3D dashboard features.
 """
 
 import streamlit as st
@@ -112,48 +112,46 @@ CSS = """
         color: #F0F0F5 !important;
     }
 
-    /* ── Sidebar expand button (stExpandSidebarButton) — always visible & styled ── */
-    /* Modern Streamlit uses data-testid="stExpandSidebarButton" (not collapsedControl) */
+    /* ── Sidebar expand button (stExpandSidebarButton) in TOP-LEFT corner ── */
+    /* Modern Streamlit uses data-testid="stExpandSidebarButton" */
     [data-testid="stExpandSidebarButton"] {
         display: flex !important;
         visibility: visible !important;
         opacity: 1 !important;
         position: fixed !important;
-        top: 50% !important;
-        left: 0 !important;
-        transform: translateY(-50%) !important;
+        top: 12px !important;
+        left: 12px !important;
         z-index: 9999999 !important;
         background: linear-gradient(135deg, #FF6B00, #FF8C00) !important;
-        border-radius: 0 10px 10px 0 !important;
-        box-shadow: 3px 0 20px rgba(255,107,0,0.6) !important;
-        width: 32px !important;
-        height: 52px !important;
+        border-radius: 8px !important;
+        box-shadow: 0 0 16px rgba(255,107,0,0.7) !important;
+        padding: 6px 12px !important;
         align-items: center !important;
         justify-content: center !important;
-        border: none !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
         cursor: pointer !important;
-        transition: width 0.2s ease, box-shadow 0.2s ease !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     }
     [data-testid="stExpandSidebarButton"]:hover {
-        width: 42px !important;
-        box-shadow: 5px 0 28px rgba(255,140,0,0.8) !important;
+        transform: scale(1.08) !important;
+        box-shadow: 0 0 24px rgba(255,140,0,0.9) !important;
     }
     [data-testid="stExpandSidebarButton"] span,
     [data-testid="stExpandSidebarButton"] svg {
-        color: #000 !important;
-        fill: #000 !important;
-        font-size: 20px !important;
+        color: #000000 !important;
+        fill: #000000 !important;
+        font-weight: bold !important;
     }
     /* Also keep the collapse button inside the sidebar styled */
     [data-testid="stSidebarCollapseButton"] button,
     [data-testid="stSidebar"] button[data-testid="stBaseButton-headerNoPadding"] {
-        background: rgba(255,107,0,0.15) !important;
-        border: 1px solid rgba(255,107,0,0.3) !important;
+        background: rgba(255,107,0,0.2) !important;
+        border: 1px solid rgba(255,107,0,0.4) !important;
         border-radius: 6px !important;
         transition: all 0.2s ease !important;
     }
     [data-testid="stSidebarCollapseButton"] button:hover {
-        background: rgba(255,107,0,0.3) !important;
+        background: rgba(255,107,0,0.4) !important;
     }
 
     /* ── Cards ── */
@@ -421,7 +419,7 @@ st.sidebar.markdown("""
         <ellipse cx="30" cy="30" rx="28" ry="9" fill="none" stroke="#00C8FF" stroke-width="0.8" opacity="0.4" transform="rotate(35 30 30)"/>
     </svg>
     <div style="font-family:'Orbitron',sans-serif;font-size:0.85rem;font-weight:900;color:#FF8C00;letter-spacing:0.1em;">SURYADRISHTI</div>
-    <div style="font-family:'Inter',sans-serif;font-size:0.65rem;color:#6060A0;letter-spacing:0.06em;margin-top:2px;">ADITYA-L1 · ISRO · PS-15</div>
+    <div style="font-family:'Inter',sans-serif;font-size:0.65rem;color:#6060A0;letter-spacing:0.06em;margin-top:2px;">ADITYA-L1 · ISRO · INDIA AI IMPACT 2026</div>
 </div>
 <hr style="border-color:rgba(255,107,0,0.2);margin:0.5rem 0;">
 """, unsafe_allow_html=True)
@@ -512,10 +510,10 @@ st.sidebar.markdown(f"""
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
 <div style="background:linear-gradient(135deg,rgba(255,107,0,0.08),rgba(0,200,255,0.05));border:1px solid rgba(255,107,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-  <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;color:#FF8C00;letter-spacing:0.06em;">BHARATIYA ANTRIKSH</div>
-  <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;color:#FF8C00;letter-spacing:0.06em;">HACKATHON 2026</div>
-  <div style="font-size:0.65rem;color:#6060A0;margin-top:4px;">Team: SuryaDrishti · PS-15</div>
-  <div style="font-size:0.6rem;color:#5050A0;margin-top:2px;">Deep · Rituraj · Mahalaxmi · Ashfaque</div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;color:#FF8C00;letter-spacing:0.06em;">INDIA AI IMPACT</div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;color:#FF8C00;letter-spacing:0.06em;">FESTIVAL 2026</div>
+  <div style="font-size:0.65rem;color:#6060A0;margin-top:4px;">Developer: Deep Shekhar Halder</div>
+  <div style="font-size:0.6rem;color:#5050A0;margin-top:2px;">SuryaDrishti Solar AI</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -667,7 +665,7 @@ box-shadow:0 0 40px rgba(255,107,0,0.06),inset 0 1px 0 rgba(255,107,0,0.1);">
             </svg>
             <div>
                 <div style="font-size:0.62rem;color:#FF6B00;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:0.12em;">
-                    ISRO · SPACE APPLICATIONS CENTRE · ADITYA-L1 MISSION · PS-15
+                    ISRO · SPACE APPLICATIONS CENTRE · ADITYA-L1 MISSION
                 </div>
                 <h1 style="margin:3px 0 2px;font-size:1.45rem;font-weight:900;color:#F0F0F5;
                     font-family:'Orbitron',sans-serif;letter-spacing:0.04em;
@@ -682,8 +680,8 @@ box-shadow:0 0 40px rgba(255,107,0,0.06),inset 0 1px 0 rgba(255,107,0,0.1);">
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             <div style="background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);
                 border-radius:6px;padding:6px 12px;text-align:center;">
-                <div style="font-size:0.55rem;color:#FF6B00;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:0.08em;">BHARATIYA ANTRIKSH</div>
-                <div style="font-size:0.55rem;color:#FF6B00;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:0.08em;">HACKATHON 2026</div>
+                <div style="font-size:0.55rem;color:#FF6B00;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:0.08em;">INDIA AI IMPACT</div>
+                <div style="font-size:0.55rem;color:#FF6B00;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:0.08em;">FESTIVAL 2026</div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;background:rgba(0,200,255,0.06);
                 border:1px solid rgba(0,200,255,0.2);border-radius:6px;padding:6px 12px;">
